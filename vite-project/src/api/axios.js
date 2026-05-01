@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://blogapp-production-1372.up.railway.app',
+  baseURL: process.env.VITE_API_URL,
 });
 
 API.interceptors.request.use((config) => {
