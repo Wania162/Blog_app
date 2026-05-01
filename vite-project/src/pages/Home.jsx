@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useRef} from 'react';
 import { Link } from 'react-router-dom';
 import API from '../api/axios';
 import PostCard from '../components/PostCard';
@@ -7,6 +7,7 @@ import './Home.css';
 export default function Home() {
   const [posts,      setPosts]      = useState([]);
   const [loading,    setLoading]    = useState(true);
+  const cache = useRef({});
   const [error,      setError]      = useState('');
   const [page,       setPage]       = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -16,19 +17,23 @@ export default function Home() {
     fetchPosts();
   }, [page]);
 
-  const fetchPosts = async () => {
-    try {
-      setLoading(true);
-      const { data } = await API.get(`/posts?page=${page}&limit=6`);
-      setPosts(data.data);
-      setTotalPages(data.pagination.totalPages);
-      setTotal(data.pagination.total);
-    } catch {
-      setError('Posts load nahi hue.');
-    } finally {
-      setLoading(false);
-    }
-  };
+ const fetchPosts = async () => {
+  try {
+    setLoading(true);
+
+    const { data } = await API.get(`/posts?page=${page}&limit=6`);
+
+    setPosts(data.data);
+    cache.current[page] = data.data;
+    setTotalPages(data.pagination.totalPages);
+    setTotal(data.pagination.total);
+
+  } catch (err) {
+    setError('Posts load nahi hue.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   if (loading) return (
     <div className="home-wrapper">
