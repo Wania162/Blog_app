@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://blogapp-production-1372.up.railway.app/api',
 });
 
 // Har request mein token automatically attach karo
