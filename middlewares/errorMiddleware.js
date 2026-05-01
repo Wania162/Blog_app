@@ -7,7 +7,9 @@ const errorHandler = (err, req, res, next) => {
   if (err.name === 'ValidationError')   { status = 400; message = Object.values(err.errors).map(e => e.message).join(', '); }
   if (err.name === 'JsonWebTokenError') { status = 401; message = 'Invalid token'; }
   if (err.name === 'TokenExpiredError') { status = 401; message = 'Token expired'; }
+   console.error('FULL ERROR:', err);
 
+  res.status(status).json({ success: false, message, detail: err.message }); // detail add kiya
   console.error(`[ERROR] ${status}: ${message}`);
   res.status(status).json({ success: false, message });
 };
