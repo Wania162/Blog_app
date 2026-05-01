@@ -1,0 +1,21 @@
+# Root backend
+node_modules/
+.env
+
+# Frontend (nested vite project)
+vite-project/node_modules/
+
+# Build files
+vite-project/dist/
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / Editor
+.vscode/
+.DS_Store
+Thumbs.db

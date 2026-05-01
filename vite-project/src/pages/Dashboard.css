@@ -1,0 +1,415 @@
+/* ================================
+   DASHBOARD — Clean Professional
+================================ */
+
+.db-wrapper {
+  min-height: calc(100vh - 64px);
+  background: #f8f9fa;
+  padding: 2rem 1rem;
+}
+
+.db-container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* Header */
+.db-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.db-heading {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.db-heading span {
+  color: #e94560;
+}
+
+.db-header-btns {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.db-btn-primary {
+  background: #e94560;
+  color: white;
+  padding: 9px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.db-btn-primary:hover {
+  background: #c73652;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(233, 69, 96, 0.3);
+}
+
+.db-btn-logout {
+  background: white;
+  border: 1.5px solid #e8e8e8;
+  color: #555;
+  padding: 9px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.db-btn-logout:hover {
+  border-color: #e94560;
+  color: #e94560;
+}
+
+/* Stats Grid */
+.db-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.db-stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+  transition: all 0.2s;
+}
+
+.db-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
+}
+
+.db-stat-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.db-stat-num {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #e94560;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.db-stat-num.small {
+  font-size: 1.1rem;
+  text-transform: capitalize;
+}
+
+.db-stat-label {
+  font-size: 12px;
+  color: #aaa;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Posts Card */
+.db-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+}
+
+.db-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.db-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.db-posts-count {
+  font-size: 12px;
+  color: #aaa;
+  background: #f5f5f5;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* Loading / Empty */
+.db-loading {
+  text-align: center;
+  padding: 2.5rem;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.db-empty {
+  text-align: center;
+  padding: 2.5rem;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.db-empty a {
+  color: #e94560;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Post Row */
+.db-post-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f8f8f8;
+  gap: 1rem;
+}
+
+.db-post-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.db-post-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.db-post-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e94560;
+  flex-shrink: 0;
+}
+
+.db-post-title {
+  color: #1a1a2e;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.2s;
+}
+
+.db-post-title:hover {
+  color: #e94560;
+}
+
+.db-post-views {
+  font-size: 12px;
+  color: #bbb;
+  flex-shrink: 0;
+}
+
+.db-post-btns {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.db-edit-btn {
+  background: #eef4ff;
+  color: #0066cc;
+  border: 1px solid #cce0ff;
+  padding: 5px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.db-edit-btn:hover {
+  background: #0066cc;
+  color: white;
+}
+
+.db-delete-btn {
+  background: #fff0f2;
+  color: #e94560;
+  border: 1px solid #ffd0d8;
+  padding: 5px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.db-delete-btn:hover {
+  background: #e94560;
+  color: white;
+}
+
+/* ================================
+   DELETE POPUP
+================================ */
+.db-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  backdrop-filter: blur(2px);
+}
+
+.db-popup {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.db-popup-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.db-popup-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 0.5rem;
+}
+
+.db-popup-text {
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.db-popup-btns {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.db-popup-confirm {
+  background: #e94560;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.db-popup-confirm:hover {
+  background: #c73652;
+}
+
+.db-popup-cancel {
+  background: #f5f5f5;
+  color: #555;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.db-popup-cancel:hover {
+  background: #eee;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+@media (max-width: 768px) {
+  .db-wrapper {
+    padding: 1.25rem 0.75rem;
+  }
+
+  .db-heading {
+    font-size: 1.4rem;
+  }
+
+  .db-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .db-stat-card {
+    padding: 1rem 0.5rem;
+  }
+
+  .db-stat-num {
+    font-size: 1.5rem;
+  }
+
+  .db-card {
+    padding: 1rem;
+  }
+
+  .db-post-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .db-post-btns {
+    width: 100%;
+  }
+
+  .db-edit-btn,
+  .db-delete-btn {
+    flex: 1;
+    text-align: center;
+    padding: 7px;
+  }
+
+  .db-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .db-header-btns {
+    width: 100%;
+  }
+
+  .db-btn-primary,
+  .db-btn-logout {
+    flex: 1;
+    text-align: center;
+  }
+}

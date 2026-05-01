@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog Posts - SSR</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
+    header { background: #1a1a2e; padding: 1rem 2rem; }
+    header h1 { color: #e94560; font-size: 1.4rem; }
+    .badge { background: #e94560; color: white; font-size: 11px; padding: 2px 8px; border-radius: 12px; margin-left: 8px; vertical-align: middle; }
+    .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+    .info { background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 12px 16px; margin-bottom: 1.5rem; font-size: 13px; color: #856404; }
+    .card { background: white; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+    .card h2 { color: #1a1a2e; margin-bottom: 0.5rem; font-size: 1.2rem; }
+    .card p { color: #666; font-size: 14px; line-height: 1.6; margin-bottom: 0.75rem; }
+    .meta { font-size: 12px; color: #999; display: flex; gap: 1rem; }
+    .tag { display: inline-block; background: #fff0f2; color: #e94560; font-size: 11px; padding: 2px 8px; border-radius: 12px; margin-right: 4px; }
+    .tags { margin-bottom: 0.5rem; }
+    .empty { text-align: center; padding: 3rem; color: #999; }
+    .ssr-note { background: #d1e7dd; border: 1px solid #badbcc; border-radius: 8px; padding: 12px 16px; margin-bottom: 1.5rem; font-size: 13px; color: #0f5132; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>✍️ BlogApp <span class="badge">SSR Page</span></h1>
+</header>
+
+<div class="container">
+
+  <div class="ssr-note">
+    ✅ <strong>Yeh page Server Side Rendered (SSR) hai!</strong>
+    HTML is page ka <strong>server pe bana</strong> aur phir browser ko bheja gaya.
+    React ki tarah browser mein nahi bana.
+  </div>
+
+  <div class="info">
+    🔗 Yeh page Express + EJS se render ho raha hai |
+    URL: <strong>http://localhost:5000/ssr/posts</strong>
+  </div>
+
+  <h2 style="margin-bottom:1rem; color:#1a1a2e">
+    📝 Sare Blog Posts
+    <span style="font-size:14px; color:#999; font-weight:normal">
+      (<%= posts.length %> posts)
+    </span>
+  </h2>
+
+  <% if (posts.length === 0) { %>
+    <div class="empty">Abhi koi post nahi hai</div>
+  <% } else { %>
+    <% posts.forEach(post => { %>
+      <div class="card">
+        <div class="tags">
+          <% post.tags.forEach(tag => { %>
+            <span class="tag"><%= tag %></span>
+          <% }) %>
+        </div>
+        <h2><%= post.title %></h2>
+        <p><%= post.excerpt %></p>
+        <div class="meta">
+          <span>✍️ <%= post.author ? post.author.name : 'Unknown' %></span>
+          <span>👁️ <%= post.views %> views</span>
+          <span>📅 <%= new Date(post.createdAt).toLocaleDateString('en-PK') %></span>
+        </div>
+      </div>
+    <% }) %>
+  <% } %>
+
+</div>
+
+</body>
+</html>
