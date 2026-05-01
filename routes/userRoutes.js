@@ -1,11 +1,19 @@
-const express    = require('express');
-const router     = express.Router();
-const { uploadAvatar, updateProfile, getUserProfile, deleteAvatar } = require('../controllers/userControllers');
-const { protect }      = require('../middlewares/authMiddleware');
-const { uploadAvatar: uploadAvatarMiddleware } = require('../config/cloudinary');
+const express = require('express');
+const router  = express.Router();
+const {
+  uploadAvatar, deleteAvatar,
+  updateProfile, getUserProfile,
+} = require('../controllers/userController');
+const { protect } = require('../middlewares/authMiddleware');
+
+// Upload middleware lazily load karo
+const avatarUpload = (req, res, next) => {
+  const { uploadAvatar: upload } = require('../config/cloudinary').getCloudinary();
+  upload.single('avatar')(req, res, next);
+};
 
 router.put('/update',    protect, updateProfile);
-router.post('/avatar',   protect, uploadAvatarMiddleware.single('avatar'), uploadAvatar);
+router.post('/avatar',   protect, avatarUpload, uploadAvatar);
 router.delete('/avatar', protect, deleteAvatar);
 router.get('/:id',       getUserProfile);
 
