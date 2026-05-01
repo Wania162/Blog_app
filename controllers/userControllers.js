@@ -1,74 +1,90 @@
-const User = require('../models/User');
+const User           = require('../models/User');
 const { cloudinary } = require('../config/cloudinary');
 
-// Profile picture upload
+// Avatar upload
 exports.uploadAvatar = async (req, res, next) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ success: false, message: 'Photo select' });
+      return res.status(400).json({ success: false, message: 'Photo select karo' });
     }
 
-    // Purani pic delete karo Cloudinary se
+    // Purani pic delete karo
     if (req.user.avatarPublicId) {
-      await cloudinary.uploader.destroy(req.user.avatarPublicId);
+      try {
+        await cloudinary.uploader.destroy(req.user.avatarPublicId);
+      } catch (e) {
+        console.log('Old avatar delete failed:', e.message);
+      }
     }
 
-    // Naya avatar save karo
     const user = await User.findByIdAndUpdate(
       req.user._id,
       {
-        avatar:        req.file.path,
+        avatar:         req.file.path,
         avatarPublicId: req.file.filename,
       },
-      { new: true }
+      { new: true, returnDocument: 'after' }
     );
 
-    res.json({
+    return res.status(200).json({
       success: true,
-      message: 'Profile picture updated successfully',
+      message: 'Profile picture updated!',
       avatar:  user.avatar,
     });
-  } catch (err) { next(err); }
+  } catch (err) {
+    return next(err);
+  }
 };
 
-// Profile info update
+// Profile update
 exports.updateProfile = async (req, res, next) => {
   try {
     const { name } = req.body;
     const user = await User.findByIdAndUpdate(
       req.user._id,
       { name },
-      { new: true, runValidators: true }
+      { new: true, returnDocument: 'after' }
     );
-    res.json({ success: true, user });
-  } catch (err) { next(err); }
+    return res.status(200).json({ success: true, user });
+  } catch (err) {
+    return next(err);
+  }
 };
 
-// Kisi bhi user ki profile dekho
+// User profile dekho
 exports.getUserProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id).select('-password');
-    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
-    res.json({ success: true, user });
-  } catch (err) { next(err); }
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User nahi mila' });
+    }
+    return res.status(200).json({ success: true, user });
+  } catch (err) {
+    return next(err);
+  }
 };
-// Avatar delete karo
+
+// Avatar delete
 exports.deleteAvatar = async (req, res, next) => {
   try {
     if (!req.user.avatarPublicId) {
-      return res.status(400).json({ success: false, message: 'No avatar to delete' });
+      return res.status(400).json({ success: false, message: 'Koi avatar nahi hai' });
     }
 
-    // Cloudinary se delete karo
-    await cloudinary.uploader.destroy(req.user.avatarPublicId);
+    try {
+      await cloudinary.uploader.destroy(req.user.avatarPublicId);
+    } catch (e) {
+      console.log('Cloudinary delete failed:', e.message);
+    }
 
-    // DB se bhi hata do
     const user = await User.findByIdAndUpdate(
       req.user._id,
       { avatar: '', avatarPublicId: '' },
-      { new: true }
+      { new: true, returnDocument: 'after' }
     );
 
-    res.json({ success: true, message: 'Avatar deleted successfully', user });
-  } catch (err) { next(err); }
+    return res.status(200).json({ success: true, message: 'Avatar delete ho gaya', user });
+  } catch (err) {
+    return next(err);
+  }
 };
