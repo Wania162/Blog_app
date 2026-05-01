@@ -16,15 +16,18 @@ const { errorHandler, notFound } = require('./middlewares/errorMiddleware');
 const app = express();
 
 /* ---------------- CORS FIX (IMPORTANT) ---------------- */
-app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
-
+// app.use(cors({
+//   origin: [
+//     process.env.FRONTEND_URL
+//   ],
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   credentials: true
+// }));
+app.use((req,res,next)=>{
+  console.log("REQUEST:", req.method, req.url);
+  next();
+});
 // Preflight fix (VERY IMPORTANT)
 app.use(cors());
 
