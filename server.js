@@ -13,11 +13,12 @@ const { errorHandler, notFound } = require('./middlewares/errorMiddleware');
 const app = express();
 
 // ✅ SSR Setup — EJS
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://blogapp-frontend-2026.netlify.app'
+  ],
   credentials: true,
 }));
 
