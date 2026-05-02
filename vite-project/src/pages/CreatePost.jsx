@@ -22,28 +22,23 @@ export default function CreatePost() {
     }
   };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append('title',   form.title);
-      formData.append('content', form.content);
-      formData.append('tags',    form.tags);
-      if (image) formData.append('image', image);
-
-      await API.post('/posts', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      navigate('/');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Post not created');
-    } finally {
-      setLoading(false);
-    }
-  };
-
+ const handleSubmit = async e => {
+  e.preventDefault();
+  setError('');
+  setLoading(true);
+  try {
+    await API.post('/posts', {
+      title:   form.title,
+      content: form.content,
+      tags:    form.tags,
+    });
+    navigate('/');
+  } catch (err) {
+    setError(err.response?.data?.message || 'Post not created');
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="cp-wrapper">
       <div className="cp-container">
