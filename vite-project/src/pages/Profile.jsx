@@ -125,7 +125,7 @@ export default function Profile() {
       </div>
 
       <div style={styles.card}>
-        <h2 style={styles.cardTitle}>Profile Update Karo</h2>
+        <h2 style={styles.cardTitle}>Profile Update</h2>
         <form onSubmit={handleNameUpdate}>
           <div style={styles.group}>
             <label style={styles.label}>Name</label>
