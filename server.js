@@ -64,9 +64,8 @@ app.use('/api/users', userRoutes);
 
 /* ---------------- HOME ROUTE ---------------- */
 app.get('/', (req, res) => {
-  res.json({ message: "🚀 Blog API is running" });
+  res.json({ message: '✅ Blog API chal raha hai!' });
 });
-
 /* ---------------- ERROR HANDLING ---------------- */
 app.use(notFound);
 app.use(errorHandler);
