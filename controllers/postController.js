@@ -1,7 +1,6 @@
-const Post           = require('../models/Post');
-const { cloudinary } = require('../config/cloudinary');
+const Post = require('../models/Post');
+const { getCloudinary } = require('../config/cloudinary');
 
-// Saare posts
 exports.getAllPosts = async (req, res, next) => {
   try {
     const page  = parseInt(req.query.page)  || 1;
@@ -24,7 +23,6 @@ exports.getAllPosts = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
-// Ek post
 exports.getSinglePost = async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id)
@@ -38,7 +36,6 @@ exports.getSinglePost = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
-// Naya post — image ke saath
 exports.createPost = async (req, res, next) => {
   try {
     const { title, content, tags } = req.body;
@@ -50,7 +47,6 @@ exports.createPost = async (req, res, next) => {
       author: req.user._id,
     };
 
-    // Agar image upload hui hai
     if (req.file) {
       postData.image         = req.file.path;
       postData.imagePublicId = req.file.filename;
@@ -62,16 +58,16 @@ exports.createPost = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
-// Update post
 exports.updatePost = async (req, res, next) => {
   try {
+    const { cloudinary } = getCloudinary();
+
     let post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ success: false, message: 'Post not found' });
     if (post.author.toString() !== req.user._id.toString()) {
       return res.status(403).json({ success: false, message: 'You are not the owner of this post' });
     }
 
-    // Nai image upload hui hai toh purani delete karo
     if (req.file) {
       if (post.imagePublicId) {
         await cloudinary.uploader.destroy(post.imagePublicId);
@@ -85,16 +81,16 @@ exports.updatePost = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
-// Delete post
 exports.deletePost = async (req, res, next) => {
   try {
+    const { cloudinary } = getCloudinary();
+
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ success: false, message: 'Post not found' });
     if (post.author.toString() !== req.user._id.toString()) {
       return res.status(403).json({ success: false, message: 'You are not the owner of this post' });
     }
 
-    // Cloudinary se image bhi delete karo
     if (post.imagePublicId) {
       await cloudinary.uploader.destroy(post.imagePublicId);
     }
@@ -104,7 +100,6 @@ exports.deletePost = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
-// Mere posts
 exports.getMyPosts = async (req, res, next) => {
   try {
     const posts = await Post.find({ author: req.user._id }).sort({ createdAt: -1 });
