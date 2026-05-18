@@ -11,6 +11,13 @@ export default function Dashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
+  // ✅ Admin ko Admin Panel pe redirect karo
+  useEffect(() => {
+    if (user && user.role === 'admin') {
+      navigate('/admin');
+    }
+  }, [user]);
+
   useEffect(() => {
     const fetchMyPosts = async () => {
       try {
@@ -31,7 +38,7 @@ export default function Dashboard() {
       setPosts(posts.filter(p => p._id !== deleteId));
       setDeleteId(null);
     } catch (err) {
-      alert(err.response?.data?.message || 'Delete nahi hua');
+      alert(err.response?.data?.message || 'Not deleted');
       setDeleteId(null);
     }
   };
@@ -68,7 +75,10 @@ export default function Dashboard() {
             Welcome, <span>{user?.name}</span>! 👋
           </h1>
           <div className="db-header-btns">
-            <Link to="/create" className="db-btn-primary">+ New Post</Link>
+            {/* ✅ Sirf user ko New Post button dikhao */}
+            {user?.role === 'user' && (
+              <Link to="/create" className="db-btn-primary">+ New Post</Link>
+            )}
             <button onClick={handleLogout} className="db-btn-logout">Logout</button>
           </div>
         </div>
@@ -106,7 +116,9 @@ export default function Dashboard() {
           ) : posts.length === 0 ? (
             <div className="db-empty">
               No posts yet.{' '}
-              <Link to="/create">Write your first post!</Link>
+              {user?.role === 'user' && (
+                <Link to="/create">Write your first post!</Link>
+              )}
             </div>
           ) : (
             posts.map(post => (
@@ -118,20 +130,23 @@ export default function Dashboard() {
                   </Link>
                   <span className="db-post-views">👁️ {post.views}</span>
                 </div>
-                <div className="db-post-btns">
-                  <button
-                    onClick={() => navigate(`/edit/${post._id}`)}
-                    className="db-edit-btn"
-                  >
-                    ✏️ Edit
-                  </button>
-                  <button
-                    onClick={() => setDeleteId(post._id)}
-                    className="db-delete-btn"
-                  >
-                    🗑️ Delete
-                  </button>
-                </div>
+                {/* ✅ Sirf user ko edit/delete buttons dikhao */}
+                {user?.role === 'user' && (
+                  <div className="db-post-btns">
+                    <button
+                      onClick={() => navigate(`/edit/${post._id}`)}
+                      className="db-edit-btn"
+                    >
+                      ✏️ Edit
+                    </button>
+                    <button
+                      onClick={() => setDeleteId(post._id)}
+                      className="db-delete-btn"
+                    >
+                      🗑️ Delete
+                    </button>
+                  </div>
+                )}
               </div>
             ))
           )}

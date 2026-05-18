@@ -61,22 +61,13 @@ export default function SinglePost() {
         </div>
 
         {/* Edit + Delete — sirf apni post pe dikhega */}
-        {isAuthor && (
-          <div style={styles.actions}>
-            <button
-              onClick={() => navigate(`/edit/${post._id}`)}
-              style={styles.editBtn}
-            >
-              ✏️ Edit
-            </button>
-            <button
-              onClick={handleDelete}
-              style={styles.deleteBtn}
-            >
-              🗑️ Delete
-            </button>
-          </div>
-        )}
+       {/* Sirf user apni post edit/delete kar sakta hai */}
+{isAuthor && user?.role !== 'admin' && (
+  <div style={styles.actions}>
+    <button onClick={() => navigate(`/edit/${post._id}`)} style={styles.editBtn}>✏️ Edit</button>
+    <button onClick={handleDelete} style={styles.deleteBtn}>🗑️ Delete</button>
+  </div>
+)}
       </div>
     </div>
   );

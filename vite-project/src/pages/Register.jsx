@@ -3,8 +3,26 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Register.css';
 
+// ✅ styles return se pehle
+const styles = {
+  roleOption: {
+    display:        'flex',
+    alignItems:     'center',
+    padding:        '10px 20px',
+    border:         '1.5px solid #e8e8e8',
+    borderRadius:   '10px',
+    cursor:         'pointer',
+    fontSize:       '14px',
+    fontWeight:     500,
+    color:          '#333',
+    flex:           1,
+    justifyContent: 'center',
+    transition:     'all 0.2s',
+  },
+};
+
 export default function Register() {
-  const [form,    setForm]    = useState({ name: '', email: '', password: '' });
+  const [form,    setForm]    = useState({ name: '', email: '', password: '', role: 'user' });
   const [error,   setError]   = useState('');
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
@@ -17,7 +35,7 @@ export default function Register() {
     setError('');
     setLoading(true);
     try {
-      await register(form.name, form.email, form.password);
+      await register(form.name, form.email, form.password, form.role);
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Register nahi hua');
@@ -30,7 +48,6 @@ export default function Register() {
     <div className="reg-wrapper">
       <div className="reg-card">
 
-        {/* Logo */}
         <div className="reg-logo">
           <div className="reg-logo-icon">✍️</div>
         </div>
@@ -38,16 +55,12 @@ export default function Register() {
         <h2 className="reg-title">Create Account</h2>
         <p className="reg-subtitle">Join us and start writing today</p>
 
-        {/* Error */}
         {error && (
-          <div className="reg-error">
-            ⚠️ {error}
-          </div>
+          <div className="reg-error">⚠️ {error}</div>
         )}
 
         <form onSubmit={handleSubmit}>
 
-          {/* Name */}
           <div className="reg-group">
             <label className="reg-label">Full Name</label>
             <div className="reg-input-wrapper">
@@ -64,7 +77,6 @@ export default function Register() {
             </div>
           </div>
 
-          {/* Email */}
           <div className="reg-group">
             <label className="reg-label">Email</label>
             <div className="reg-input-wrapper">
@@ -81,7 +93,6 @@ export default function Register() {
             </div>
           </div>
 
-          {/* Password */}
           <div className="reg-group">
             <label className="reg-label">Password</label>
             <div className="reg-input-wrapper">
@@ -99,7 +110,35 @@ export default function Register() {
             </div>
           </div>
 
-          {/* Submit */}
+          {/* Role Selection */}
+          <div className="reg-group">
+            <label className="reg-label">Account Type</label>
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '4px' }}>
+              <label style={styles.roleOption}>
+                <input
+                  type="radio"
+                  name="role"
+                  value="user"
+                  checked={form.role === 'user'}
+                  onChange={e => setForm({ ...form, role: e.target.value })}
+                  style={{ marginRight: '6px' }}
+                />
+                👤 User
+              </label>
+              <label style={styles.roleOption}>
+                <input
+                  type="radio"
+                  name="role"
+                  value="admin"
+                  checked={form.role === 'admin'}
+                  onChange={e => setForm({ ...form, role: e.target.value })}
+                  style={{ marginRight: '6px' }}
+                />
+                👑 Admin
+              </label>
+            </div>
+          </div>
+
           <button type="submit" disabled={loading} className="reg-btn">
             {loading ? (
               <>

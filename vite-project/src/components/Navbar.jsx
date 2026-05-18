@@ -23,42 +23,32 @@ export default function Navbar() {
         ✍️ BlogApp
       </Link>
 
-      {/* Hamburger — mobile */}
-      <button
-        className="navbar-hamburger"
-        onClick={() => setMenuOpen(!menuOpen)}
-      >
+      {/* Hamburger */}
+      <button className="navbar-hamburger" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? '✕' : '☰'}
       </button>
 
       {/* Links */}
       <div className={`navbar-links ${menuOpen ? 'open' : ''}`}>
-        <Link to="/" className="navbar-link" onClick={close}>
-          Posts
-        </Link>
+        <Link to="/" className="navbar-link" onClick={close}>Posts</Link>
 
         {user ? (
           <>
-            <div className="navbar-divider" />
+            {/* Sirf user ko post create */}
+            {user.role === 'user' && (
+              <Link to="/create" className="navbar-link" onClick={close}>+ New Post</Link>
+            )}
 
-            <Link to="/create" className="navbar-link" onClick={close}>
-              + New Post
-            </Link>
+            {/* Admin panel link */}
+            {user.role === 'admin' && (
+              <Link to="/admin" className="navbar-admin-link" onClick={close}>👑 Admin</Link>
+            )}
 
-            <Link to="/dashboard" className="navbar-link" onClick={close}>
-              Dashboard
-            </Link>
+            <Link to="/dashboard" className="navbar-link" onClick={close}>Dashboard</Link>
 
-            <div className="navbar-divider" />
-
-            {/* Avatar */}
             <Link to="/profile" className="navbar-avatar-link" onClick={close}>
               {user.avatar ? (
-                <img
-                  src={user.avatar}
-                  alt="avatar"
-                  className="navbar-avatar-img"
-                />
+                <img src={user.avatar} alt="avatar" className="navbar-avatar-img" />
               ) : (
                 <div className="navbar-avatar-placeholder">
                   {user.name?.charAt(0).toUpperCase()}
@@ -67,14 +57,12 @@ export default function Navbar() {
               <span className="navbar-name">{user.name}</span>
             </Link>
 
-            <button onClick={handleLogout} className="navbar-logout-btn">
-              Logout
-            </button>
+            <button onClick={handleLogout} className="navbar-logout-btn">Logout</button>
           </>
         ) : (
           <>
             <div className="navbar-divider" />
-            <Link to="/login"    className="navbar-link"    onClick={close}>Login</Link>
+            <Link to="/login"    className="navbar-link"     onClick={close}>Login</Link>
             <Link to="/register" className="navbar-link-btn" onClick={close}>Register</Link>
           </>
         )}

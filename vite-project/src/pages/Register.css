@@ -208,3 +208,26 @@
     font-size: 1.3rem;
   }
 }
+.role-option {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  flex: 1;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.role-option:hover {
+  border-color: #e94560;
+  color: #e94560;
+}
+
+.role-option input[type="radio"]:checked + span {
+  color: #e94560;
+}
