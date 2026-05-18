@@ -7,22 +7,27 @@ const createToken = (id) =>
 // REGISTER
 exports.register = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
+    console.log('Role received:', role); // ← yeh add karo
+    console.log('Body:', req.body);      // ← yeh add karo
 
     const exists = await User.findOne({ email });
     if (exists) {
-      return res.status(400).json({ success: false, message: 'Email already exists' });
+      return res.status(400).json({ success: false, message: 'Email pehle se registered hai' });
     }
 
-    const user  = await User.create({ name, email, password });
+    // Sirf 'user' ya 'admin' allow karo
+    const userRole = role === 'admin' ? 'admin' : 'user';
+
+    const user  = await User.create({ name, email, password, role: userRole });
     const token = createToken(user._id);
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       token,
       user: { id: user._id, name: user.name, email: user.email, role: user.role },
     });
-  } catch (err) { next(err); }
+  } catch (err) { return next(err); }
 };
 
 // LOGIN

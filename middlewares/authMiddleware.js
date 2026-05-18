@@ -23,5 +23,12 @@ const protect = async (req, res, next) => {
     return res.status(401).json({ success: false, message: 'Token invalid' });
   }
 };
+// Admin only
+const adminOnly = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+    return next();
+  }
+  return res.status(403).json({ success: false, message: 'just admin access' });
+};
 
-module.exports = { protect };
+module.exports = { protect, adminOnly };

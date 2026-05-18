@@ -10,6 +10,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const postRoutes = require('./routes/postRoutes');
 const userRoutes = require('./routes/userRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const { errorHandler, notFound } = require('./middlewares/errorMiddleware');
 
@@ -49,6 +50,7 @@ app.get('/ssr/posts', async (req, res) => {
 app.use('/api/auth',  authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: '✅ Blog API chal raha hai!' });
